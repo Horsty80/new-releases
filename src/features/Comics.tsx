@@ -15,13 +15,19 @@ export default function Comics() {
   return (
     <div>
       {comics && comics.length > 0 ? (
-        <ul>
-          {comics.map(({ title, type, date, price }, index) => (
-            <li key={`${index}-${title}-${date}`}>
-              {date} - {title} ({type}) : {price}
-            </li>
-          ))}
-        </ul>
+        <>
+          <h2>{comics.length} new Comics</h2>
+          <ul>
+            {comics.map(({ title, type, date, price, img }, index) => (
+              <li key={`${index}-${title}-${date}`}>
+                <img src={img} alt="" />
+                <span>
+                  {date} - {title} ({type}) : {price}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
         <div>Chargement...</div>
       )}
