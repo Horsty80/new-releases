@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import { FetchedComic } from "../models/fetchedDatas";
 
 export default function Comics() {
-  const [comics, setComics] = useState<[]>();
+  const [comics, setComics] = useState<FetchedComic[]>();
 
   useEffect(() => {
     const fetchComics = async () => {
       const response = await fetch(import.meta.env.VITE_COMICS_DATA);
-      const data = await response.json();
+      const data: FetchedComic[] = await response.json();
       setComics(data);
     };
     fetchComics();
@@ -18,14 +19,28 @@ export default function Comics() {
         <>
           <h2>{comics.length} new Comics</h2>
           <ul>
-            {comics.map(({ title, type, date, price, img }, index) => (
-              <li key={`${index}-${title}-${date}`}>
-                <img src={img} alt="" />
-                <span>
-                  {date} - {title} ({type}) : {price}
-                </span>
-              </li>
-            ))}
+            {comics.map(
+              (
+                {
+                  title,
+                  coverImg,
+                  availabilityHumanDate,
+                  price,
+                  productType,
+                  codeEan,
+                  description,
+                },
+                index
+              ) => (
+                <li key={`${index}-${codeEan}`}>
+                  <img src={coverImg} alt="" />
+                  <span>
+                    {availabilityHumanDate} - {title} ({productType}) : {price}
+                  </span>
+                  <span>{description}</span>
+                </li>
+              )
+            )}
           </ul>
         </>
       ) : (
